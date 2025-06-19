@@ -160,20 +160,20 @@ const portfolioData = {
       icon: <FiAward className="text-emerald-400" />,
       category: "Mathematics"
     },
-    {
-      title: "Hackathon 7.0 Technoscape Participant",
-      description: "Participated in Hackathon 7.0 Technoscape",
-      year: "2024",
-      icon: <FiZap className="text-blue-400" />,
-      category: "Technology"
-    },
-    {
-      title: "Web3 Competition ICP Builder Day Participant",
-      description: "Participated in ICP Builder Day Web3 Competition",
-      year: "2024",
-      icon: <FiCpu className="text-violet-400" />,
-      category: "Technology"
-    }
+    // {
+    //   title: "Hackathon 7.0 Technoscape Participant",
+    //   description: "Participated in Hackathon 7.0 Technoscape",
+    //   year: "2024",
+    //   icon: <FiZap className="text-blue-400" />,
+    //   category: "Technology"
+    // },
+    // {
+    //   title: "Web3 Competition ICP Builder Day Participant",
+    //   description: "Participated in ICP Builder Day Web3 Competition",
+    //   year: "2024",
+    //   icon: <FiCpu className="text-violet-400" />,
+    //   category: "Technology"
+    // }
   ],
   social: {
     github: "https://github.com/lavinianataniela05",

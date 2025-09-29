@@ -1102,6 +1102,7 @@ import {
 } from 'react-icons/si';
 import { IoLogoFirebase } from "react-icons/io5";
 import { motion, AnimatePresence } from "framer-motion";
+import { Typewriter } from 'react-simple-typewriter';
 
 const portfolioData = {
   name: "Lavinia Nataniela Novyandi",
@@ -1549,21 +1550,38 @@ const ProfessionalPortfolio = () => {
               </motion.div>
               
               <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6">
-                <motion.span 
+                {/* <motion.span 
                   className="block text-slate-900"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.2 }}
                 >
                   Hi, I'm 
-                </motion.span>
+                </motion.span> */}
+                {/* Replace just the greeting part */}
+<motion.span 
+  className="block text-slate-900"
+  initial={{ opacity: 0, y: 15 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6, delay: 0.1 }}
+>
+  <Typewriter
+    words={["Hi, ", "Hello, ", "Hola,", "Bonjour, ", "Ciao, ", "Hallo, ", "Olá, ", "你好, "]}
+    loop={true}
+    cursor={true}
+    cursorStyle="|"
+    typeSpeed={60}
+    deleteSpeed={50}
+    delaySpeed={1100}
+  />
+</motion.span>
                 <motion.span 
                   className="block text-slate-900"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.2 }}
                 >
-                  Lavinia Nataniela
+                  I'm Lavinia Nataniela
                 </motion.span>
               </h1>
               

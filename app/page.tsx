@@ -1,100 +1,83 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { 
-  FiArrowUpRight, 
-  FiGithub, 
-  FiLinkedin, 
-  FiInstagram, 
-  FiMail, 
-} from "react-icons/fi";
+import {
+  SiReact,
+  SiNextdotjs,
+  SiTypescript,
+  SiTailwindcss,
+  SiFlutter,
+  SiFirebase,
+  SiSupabase,
+  SiPostgresql,
+  SiNodedotjs,
+  SiFigma,
+  SiDocker,
+  SiGit,
+} from "react-icons/si";
+import WovenYarnCanvas from "./components/WovenYarnCanvas";
+import SocialRail from "./components/SocialRail";
+
+// Hero rotating roles + tech stack (reference-style intro)
+const HERO_ROLES = [
+  "Frontend Developer.",
+  "UI/UX Designer.",
+  "Software Developer.",
+];
+
+const TECH_STACK = [
+  { Icon: SiReact, color: "#61DAFB", name: "React" },
+  { Icon: SiNextdotjs, color: "#121213", name: "Next.js" },
+  { Icon: SiTypescript, color: "#3178C6", name: "TypeScript" },
+  { Icon: SiTailwindcss, color: "#06B6D4", name: "Tailwind CSS" },
+  { Icon: SiFlutter, color: "#02569B", name: "Flutter" },
+  { Icon: SiFirebase, color: "#FFA000", name: "Firebase" },
+  { Icon: SiSupabase, color: "#3FCF8E", name: "Supabase" },
+  { Icon: SiPostgresql, color: "#4169E1", name: "PostgreSQL" },
+  { Icon: SiNodedotjs, color: "#5FA04E", name: "Node.js" },
+  { Icon: SiFigma, color: "#F24E1E", name: "Figma" },
+  { Icon: SiDocker, color: "#2496ED", name: "Docker" },
+  { Icon: SiGit, color: "#F05032", name: "Git" },
+];
+
+const CAPABILITIES = [
+  { label: "Frontend", items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"] },
+  { label: "Backend", items: ["Supabase", "Firebase", "Prisma", "Node.js", "PostgreSQL"] },
+  { label: "Design & System", items: ["Figma", "UX Wireframing", "Microservices", "Docker", "System Design"] },
+];
 
 // ==========================================
-// INTERACTIVE CANVAS BACKDROP (WOVEN THREADS)
-// ==========================================
-const WovenYarnCanvas = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mouseRef = useRef({ x: -1000, y: -1000 });
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
-    let animationFrameId: number;
-    let phase = 0;
-
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseRef.current.x = e.clientX;
-      mouseRef.current.y = e.clientY;
-    };
-    const handleResize = () => {
-      if (!canvas) return;
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("resize", handleResize);
-
-    const draw = () => {
-      ctx.clearRect(0, 0, width, height);
-      phase += 0.004;
-
-      const threads = [
-        { color: "rgba(138, 98, 64, 0.07)", frequency: 0.002, amplitude: 50, offset: 0 },
-        { color: "rgba(50, 75, 59, 0.05)", frequency: 0.003, amplitude: 30, offset: Math.PI / 3 },
-        { color: "rgba(181, 93, 54, 0.05)", frequency: 0.0015, amplitude: 60, offset: Math.PI / 1.5 }
-      ];
-
-      threads.forEach((thread) => {
-        ctx.beginPath();
-        ctx.strokeStyle = thread.color;
-        ctx.lineWidth = 1.8;
-
-        for (let x = 0; x < width; x += 6) {
-          let angle = x * thread.frequency + phase + thread.offset;
-          let y = height / 2 + Math.sin(angle) * thread.amplitude;
-
-          const dx = x - mouseRef.current.x;
-          const dy = y - mouseRef.current.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 250) {
-            const pull = (1 - dist / 250) * 20;
-            y += (mouseRef.current.y - y > 0 ? pull : -pull);
-          }
-
-          if (x === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-        ctx.stroke();
-      });
-
-      animationFrameId = requestAnimationFrame(draw);
-    };
-
-    draw();
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("resize", handleResize);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
-
-  return <canvas ref={canvasRef} className="woven-canvas" />;
-};
-
-// ==========================================
-// MAIN DIGITAL ATELIER VIEW
+// MAIN DIGITAL ATELIER VIEW (single scrollable page)
 // ==========================================
 export default function Page() {
   const [activeRoom, setActiveRoom] = useState("profile");
   const [activeSlideIdx, setActiveSlideIdx] = useState(0);
   const sliderRef = useRef<HTMLDivElement>(null);
+
+  // Typewriter effect for hero role headline
+  const [roleIdx, setRoleIdx] = useState(0);
+  const [typed, setTyped] = useState("");
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    const current = HERO_ROLES[roleIdx];
+    let timeout: ReturnType<typeof setTimeout>;
+    if (!deleting) {
+      if (typed.length < current.length) {
+        timeout = setTimeout(() => setTyped(current.slice(0, typed.length + 1)), 75);
+      } else {
+        timeout = setTimeout(() => setDeleting(true), 1800);
+      }
+    } else {
+      if (typed.length > 0) {
+        timeout = setTimeout(() => setTyped(current.slice(0, typed.length - 1)), 38);
+      } else {
+        setDeleting(false);
+        setRoleIdx((i) => (i + 1) % HERO_ROLES.length);
+      }
+    }
+    return () => clearTimeout(timeout);
+  }, [typed, deleting, roleIdx]);
 
   // Intersection Observer to track active section
   useEffect(() => {
@@ -153,7 +136,6 @@ export default function Page() {
       const firstSlide = slider.querySelector(".project-slide") as HTMLElement;
       if (firstSlide) {
         const slideWidth = firstSlide.offsetWidth + 24; // slide width + gap (24px)
-        // Calculate active index based on scroll position
         const newIdx = Math.round(scrollLeft / slideWidth);
         if (newIdx !== activeSlideIdx && newIdx >= 0 && newIdx < 6) {
           setActiveSlideIdx(newIdx);
@@ -228,11 +210,11 @@ export default function Page() {
   const handleTenunaraUpcycle = (material: string, weight: number) => {
     setTenunaraMaterial(material);
     setTenunaraWeight(weight);
-    
+
     let waterFactor = material === "cotton" ? 100 : material === "denim" ? 150 : 50;
     let co2Factor = material === "cotton" ? 2.1 : material === "denim" ? 3.5 : 1.8;
     let materialName = material.charAt(0).toUpperCase() + material.slice(1);
-    
+
     const newLog = `Listed ${weight}kg of ${materialName} offcuts. Saved ~${(weight * waterFactor).toLocaleString()}L of water, offset ~${(weight * co2Factor).toFixed(1)}kg CO2e.`;
     setTenunaraLogs((prev) => [newLog, ...prev.slice(0, 2)]);
   };
@@ -278,6 +260,9 @@ export default function Page() {
       {/* Dynamic Canvas Backdrops */}
       <WovenYarnCanvas />
 
+      {/* Fixed vertical social rail */}
+      <SocialRail />
+
       {/* FLOATING HEADER NAVIGATION */}
       <header className="atelier-nav">
         <a
@@ -288,8 +273,7 @@ export default function Page() {
           }}
           className="nav-brand"
         >
-          L. NATANIELA
-          <span>Digital Atelier</span>
+          <img src="/logo.png" alt="L. Nataniela" className="nav-brand-logo" />
         </a>
         <div className="nav-exhibit-links">
           <button
@@ -324,159 +308,117 @@ export default function Page() {
             SECTION 01: PROFILE
             ========================================== */}
         <section id="profile" className="exhibit-room" style={{ flexDirection: "column", alignItems: "stretch", paddingBottom: "60px" }}>
-          {/* Hero Landing */}
-          <div className="exhibit-grid mb-16">
-            <div className="space-y-6">
-              <span className="exhibit-label">Atelier Introduction</span>
-              <h1 className="exhibit-title" style={{ fontFamily: "var(--font-display)" }}>
-                Designing Products
-                <br />
-                That Create <span style={{ color: "var(--primary)" }}>Impact</span>
-              </h1>
-              <p className="text-sm text-neutral-600 leading-relaxed max-w-md">
-                Frontend Developer and UI/UX Designer crafting scalable, sustainability-focused digital solutions 
-                at the intersection of clean code and human-centered design.
-              </p>
+          {/* Hero Landing — reference-style intro */}
+          <div className="hero-intro">
+            <span className="hero-name">Lavinia Nataniela</span>
 
-              {/* Stats Counters */}
-              <div className="flex gap-8 border-y border-black/10 py-5 my-4 text-sm font-mono">
-                <div>
-                  <span className="block text-2xl font-bold text-black font-sans">5+</span>
-                  <span className="text-[10px] text-neutral-500">Products</span>
-                </div>
-                <div>
-                  <span className="block text-2xl font-bold text-black font-sans">3+</span>
-                  <span className="text-[10px] text-neutral-500">Domains</span>
-                </div>
-                <div>
-                  <span className="block text-2xl font-bold text-black font-sans">1K+</span>
-                  <span className="text-[10px] text-neutral-500">Dev Hours</span>
-                </div>
-                <div>
-                  <span className="block text-2xl font-bold text-black font-sans">∞</span>
-                  <span className="text-[10px] text-neutral-500">Passion</span>
-                </div>
-              </div>
+            <h1 className="hero-headline">
+              <span>{typed || " "}</span>
+              <span className="hero-cursor" aria-hidden="true" />
+            </h1>
 
-              <div className="flex gap-4">
-                <a
-                  href="/resume.pdf"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="exhibit-btn"
-                >
-                  Download CV / Resume
-                </a>
-                <button
-                  onClick={() => scrollToRoom("projects")}
-                  className="exhibit-btn-outline"
-                >
-                  Explore Work
-                </button>
-              </div>
+            <p className="hero-quote">
+              &ldquo;I build scalable, sustainability-focused digital products at the
+              intersection of clean code and human-centered design.&rdquo;
+            </p>
+
+            <div className="hero-stack" aria-label="Technology stack">
+              {TECH_STACK.map(({ Icon, color, name }) => (
+                <span key={name} className="hero-stack-item" title={name}>
+                  <Icon color={color} size={34} aria-label={name} />
+                </span>
+              ))}
             </div>
 
-            {/* Profile Picture Frame */}
-            <div className="relative flex justify-center items-center">
-              <div className="relative w-full max-w-[280px] aspect-[4/5] border-2 border-black rounded-2xl overflow-hidden shadow-[6px_6px_0px_0px_#121213] transition-transform hover:-translate-x-1 hover:-translate-y-1">
-                <img 
-                  src="/foto_profesional.jpeg" 
-                  alt="Lavinia Nataniela" 
-                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
-                />
-                <div className="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur border border-black/10 rounded-xl p-2.5 flex justify-between items-center text-[10px] font-mono">
-                  <div>
-                    <span className="font-bold block text-neutral-900">L. Nataniela Novyandi</span>
-                    <span className="text-[9px] text-neutral-500">Jakarta, ID // Active</span>
-                  </div>
-                  <span className="sim-badge" style={{ background: "var(--primary)", color: "#FFFFFF", fontSize: "8px" }}>Dev & Designer</span>
-                </div>
-              </div>
+            <div className="hero-actions">
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noreferrer"
+                className="exhibit-btn"
+              >
+                Download CV / Resume
+              </a>
+              <button
+                onClick={() => scrollToRoom("projects")}
+                className="exhibit-btn-outline"
+              >
+                Explore Work
+              </button>
             </div>
           </div>
 
-          {/* Biography & Timeline split */}
-          <div className="exhibit-grid pt-12 border-t border-black/10">
-            <div className="space-y-4">
-              <span className="exhibit-label">BIOGRAPHY // PROFILE</span>
-              <h2 className="text-2xl font-bold font-serif" style={{ fontFamily: "var(--font-display)" }}>My Core</h2>
-              <p className="text-sm text-neutral-600 leading-relaxed">
-                Focused on turning complex business requirements into intuitive, user-friendly digital architectures. 
-                I combine technical development, system planning, and modern design principles to produce measurable value.
-              </p>
-            </div>
-
-            {/* Timeline */}
-            <div className="atelier-frame p-6">
-              <span className="exhibit-label">Chronology</span>
-              <div className="space-y-4 mt-4 relative pl-4 border-l border-black/10">
-                <div className="flex gap-4 items-start">
-                  <span className="text-xs font-mono font-bold text-amber-800 w-8">2023</span>
-                  <div>
-                    <h4 className="text-xs font-bold">Web Development Start</h4>
-                    <p className="text-[11px] text-neutral-500">HTML, CSS, JS foundations</p>
+          {/* Hello World — About card (playful brown) */}
+          <div className="hw-band">
+            <span className="hw-blob hw-blob-1" aria-hidden="true" />
+            <span className="hw-blob hw-blob-2" aria-hidden="true" />
+            <div className="hw-inner">
+              <div className="hw-grid">
+                <div className="hw-photo-wrap">
+                  <span className="hw-vertical">DEVELOPER</span>
+                  <div className="hw-photo-frame">
+                    <img
+                      src="/foto_profesional.jpeg"
+                      alt="Lavinia Nataniela"
+                      className="hw-photo"
+                    />
+                    <span className="hw-photo-caption">✦ hi, it&apos;s me!</span>
                   </div>
                 </div>
-                <div className="flex gap-4 items-start">
-                  <span className="text-xs font-mono font-bold text-amber-800 w-8">2024</span>
-                  <div>
-                    <h4 className="text-xs font-bold">Frontend Engineering</h4>
-                    <p className="text-[11px] text-neutral-500">React, Next.js, TypeScript focus</p>
-                  </div>
-                </div>
-                <div className="flex gap-4 items-start">
-                  <span className="text-xs font-mono font-bold text-amber-800 w-8">2025</span>
-                  <div>
-                    <h4 className="text-xs font-bold">Product-Based Platforms</h4>
-                    <p className="text-[11px] text-neutral-500">Tenunara, TOMO, cafe log system</p>
-                  </div>
-                </div>
-                <div className="flex gap-4 items-start">
-                  <span className="text-xs font-mono font-bold text-amber-800 w-8">2026</span>
-                  <div>
-                    <h4 className="text-xs font-bold">Sustainable Tech Solutions</h4>
-                    <p className="text-[11px] text-neutral-500">Wiradana cooperative frameworks</p>
-                  </div>
+                <div>
+                  <span className="hw-kicker">✨ ABOUT ME</span>
+                  <h2 className="hw-title">
+                    Hello World! <span className="hw-wave">👋</span>
+                  </h2>
+                  <p className="hw-text">
+                    I&apos;m Lavinia, an Undergraduate Computer Science student at Binus
+                    University, currently based in Indonesia. I&apos;m deeply passionate about
+                    turning ideas into reality through <span className="hw-code">code</span>,
+                    and over the years I&apos;ve built a diverse portfolio of projects spanning{" "}
+                    <strong>Front-end Development, UI/UX Design, and Back-end Development</strong>.
+                    Both as part of a team and independently.
+                  </p>
+                  <p className="hw-text">
+                    Beyond just writing code, I enjoy exploring{" "}
+                    <strong>clean design, intuitive user experiences, and scalable
+                    architectures</strong>. My journey has been fueled by curiosity,
+                    problem-solving, and a drive to create technology that&apos;s not only
+                    functional, but also meaningful.
+                  </p>
+                  <a href="mailto:lavinianataniela05@gmail.com" className="hw-btn">
+                    <svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true" fill="currentColor">
+                      <path d="M3 1.5v13l11-6.5z" />
+                    </svg>
+                    Send me a message
+                  </a>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Capabilities Matrix */}
-          <div className="mt-16 w-full max-w-5xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="atelier-frame p-6">
-                <h4 className="font-bold mb-3 font-mono text-[10px] uppercase tracking-wide text-neutral-500">Frontend</h4>
-                <div className="flex flex-wrap gap-1.5">
-                  <span className="exhibit-chip">React</span>
-                  <span className="exhibit-chip">Next.js</span>
-                  <span className="exhibit-chip">TypeScript</span>
-                  <span className="exhibit-chip">Tailwind CSS</span>
-                  <span className="exhibit-chip">Framer Motion</span>
+          <div className="pt-14 border-t border-black/10 w-full max-w-[1180px] mx-auto">
+            <div className="mb-10">
+              <span className="exhibit-label">TECHNICAL STACK</span>
+              <h2 className="exhibit-title">Capabilities</h2>
+              <p className="text-sm text-neutral-600 leading-relaxed max-w-xl">
+                The tools and technologies I reach for across the stack — from interface design to backend infrastructure.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+              {CAPABILITIES.map((cap) => (
+                <div key={cap.label} className="atelier-frame atelier-frame-hover p-7 flex flex-col">
+                  <div className="flex items-center justify-between mb-5 pb-3 border-b border-black/10">
+                    <h4 className="font-bold font-mono text-[10px] uppercase tracking-[0.15em] text-neutral-500">{cap.label}</h4>
+                    <span className="font-mono text-[10px] font-bold text-amber-800">{String(cap.items.length).padStart(2, "0")}</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {cap.items.map((item) => (
+                      <span key={item} className="exhibit-chip">{item}</span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-
-              <div className="atelier-frame p-6">
-                <h4 className="font-bold mb-3 font-mono text-[10px] uppercase tracking-wide text-neutral-500">Backend</h4>
-                <div className="flex flex-wrap gap-1.5">
-                  <span className="exhibit-chip">Supabase</span>
-                  <span className="exhibit-chip">Firebase</span>
-                  <span className="exhibit-chip">Prisma</span>
-                  <span className="exhibit-chip">Node.js</span>
-                  <span className="exhibit-chip">PostgreSQL</span>
-                </div>
-              </div>
-
-              <div className="atelier-frame p-6">
-                <h4 className="font-bold mb-3 font-mono text-[10px] uppercase tracking-wide text-neutral-500">Design & System</h4>
-                <div className="flex flex-wrap gap-1.5">
-                  <span className="exhibit-chip">Figma</span>
-                  <span className="exhibit-chip">UX Wireframing</span>
-                  <span className="exhibit-chip">Microservices</span>
-                  <span className="exhibit-chip">Docker</span>
-                  <span className="exhibit-chip">System Design</span>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
@@ -486,19 +428,19 @@ export default function Page() {
             ========================================== */}
         <section id="projects" className="exhibit-room" style={{ flexDirection: "column", alignItems: "stretch", paddingBottom: "80px" }}>
           {/* PROJECTS INDEX HEADER */}
-          <div className="w-full max-w-5xl mx-auto mb-8">
-            <span className="exhibit-label">PROJECT PORTFOLIO</span>
+          <div className="w-full max-w-[1180px] mx-auto mb-10">
+            <span className="exhibit-label">PROJECT PORTFOLIO // 02</span>
             <h2 className="exhibit-title">Exhibition Catalogue</h2>
             <p className="text-sm text-neutral-600 leading-relaxed max-w-xl">
-              Explore interactive product simulators built to demo waste circularity, restaurant logistics, 
+              Explore interactive product simulators built to demo waste circularity, restaurant logistics,
               and aviation models inside a horizontal scrollable gallery.
             </p>
           </div>
 
           {/* Horizontal Slider Wrapper */}
-          <div className="exhibit-slider-wrapper my-8">
-            <div 
-              ref={sliderRef} 
+          <div className="exhibit-slider-wrapper my-8 w-full max-w-[1180px] mx-auto">
+            <div
+              ref={sliderRef}
               onScroll={handleSliderScroll}
               className="project-slider"
             >
@@ -593,9 +535,6 @@ export default function Page() {
                       {["T1", "T2", "T3", "T4", "T5", "T6", "T7", "T8"].map((id, idx) => {
                         const isOccupied = idx === 0 || idx === 4;
                         const isSelected = reservedTables.includes(id);
-                        let stateClass = "free";
-                        if (isOccupied) stateClass = "occupied";
-                        else if (isSelected) stateClass = "reserved";
 
                         return (
                           <button
@@ -750,8 +689,8 @@ export default function Page() {
 
                     <p className="text-[8px] font-bold text-neutral-500 uppercase mb-2">Trade textile volume:</p>
                     <div className="flex flex-col gap-1.5 mb-3">
-                      <button 
-                        onClick={() => handleTenunaraUpcycle("cotton", 150)} 
+                      <button
+                        onClick={() => handleTenunaraUpcycle("cotton", 150)}
                         className={`sim-select-item py-1.5 px-3 text-[10px] flex justify-between items-center rounded-lg border border-black/5 transition ${
                           tenunaraMaterial === "cotton" ? "bg-neutral-900 text-white border-black" : "bg-white hover:bg-neutral-900 hover:text-white"
                         }`}
@@ -759,8 +698,8 @@ export default function Page() {
                         <span>🌱 Cotton Offcuts (150kg)</span>
                         <span className="font-mono text-[8px] opacity-80">15k L Saved</span>
                       </button>
-                      <button 
-                        onClick={() => handleTenunaraUpcycle("denim", 200)} 
+                      <button
+                        onClick={() => handleTenunaraUpcycle("denim", 200)}
                         className={`sim-select-item py-1.5 px-3 text-[10px] flex justify-between items-center rounded-lg border border-black/5 transition ${
                           tenunaraMaterial === "denim" ? "bg-neutral-900 text-white border-black" : "bg-white hover:bg-neutral-900 hover:text-white"
                         }`}
@@ -768,8 +707,8 @@ export default function Page() {
                         <span>👖 Denim Scraps (200kg)</span>
                         <span className="font-mono text-[8px] opacity-80">30k L Saved</span>
                       </button>
-                      <button 
-                        onClick={() => handleTenunaraUpcycle("polyester", 300)} 
+                      <button
+                        onClick={() => handleTenunaraUpcycle("polyester", 300)}
                         className={`sim-select-item py-1.5 px-3 text-[10px] flex justify-between items-center rounded-lg border border-black/5 transition ${
                           tenunaraMaterial === "polyester" ? "bg-neutral-900 text-white border-black" : "bg-white hover:bg-neutral-900 hover:text-white"
                         }`}
@@ -947,14 +886,14 @@ export default function Page() {
 
             {/* Slider Controls Bar */}
             <div className="slider-indicator-bar">
-              <button 
+              <button
                 disabled={activeSlideIdx === 0}
                 onClick={() => scrollToSlide(activeSlideIdx - 1)}
                 className="slider-arrow-btn text-xs disabled:opacity-40"
               >
                 ←
               </button>
-              
+
               <div className="flex gap-2">
                 {[0, 1, 2, 3, 4, 5].map((idx) => (
                   <button
@@ -966,7 +905,7 @@ export default function Page() {
                 ))}
               </div>
 
-              <button 
+              <button
                 disabled={activeSlideIdx === 5}
                 onClick={() => scrollToSlide(activeSlideIdx + 1)}
                 className="slider-arrow-btn text-xs disabled:opacity-40"
@@ -975,29 +914,23 @@ export default function Page() {
               </button>
             </div>
           </div>
-
-
         </section>
 
         {/* ==========================================
             SECTION 03: EXPERIENCE
             ========================================== */}
         <section id="experience" className="exhibit-room" style={{ flexDirection: "column", alignItems: "stretch" }}>
-
           {/* Section Header */}
-          <div className="w-full max-w-5xl mx-auto mb-12">
-            <span className="exhibit-label">THE REGISTRY // HONORS & EXPERIENCE</span>
-            <div className="flex flex-wrap items-end justify-between gap-4">
-              <h2 className="exhibit-title mb-0">Registry of Experience</h2>
-              <p className="text-sm text-neutral-500 leading-relaxed max-w-xs mb-2">
-                Teaching roles, mentorship records, and mathematics olympiad achievements.
-              </p>
-            </div>
-            <div className="mt-6 h-px bg-black/10" />
+          <div className="w-full max-w-[1180px] mx-auto mb-10">
+            <span className="exhibit-label">THE REGISTRY // 03</span>
+            <h2 className="exhibit-title">Registry of Experience</h2>
+            <p className="text-sm text-neutral-600 leading-relaxed max-w-xl">
+              Teaching roles, mentorship records, and mathematics olympiad achievements.
+            </p>
           </div>
 
           {/* Experience Cards */}
-          <div className="w-full max-w-5xl mx-auto mb-14">
+          <div className="w-full max-w-[1180px] mx-auto mb-14">
             <p className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-neutral-400 mb-5">// Mentorship Roles</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
@@ -1056,7 +989,7 @@ export default function Page() {
           </div>
 
           {/* Honors Cabinet */}
-          <div className="w-full max-w-5xl mx-auto">
+          <div className="w-full max-w-[1180px] mx-auto">
             <p className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-neutral-400 mb-5">// Honors Cabinet</p>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
 
@@ -1097,47 +1030,58 @@ export default function Page() {
 
             </div>
           </div>
-
         </section>
 
         {/* ==========================================
             SECTION 04: CONTACT
             ========================================== */}
-        <section id="contact" className="exhibit-room" style={{ borderBottom: "none" }}>
-          <div className="w-full max-w-4xl mx-auto text-center space-y-6">
-            <span className="exhibit-label">CONNECT</span>
-            <h2 className="exhibit-title">Let's build meaningful products.</h2>
-            <p className="text-sm text-neutral-600 leading-relaxed max-w-md mx-auto">
-              Interested in full-stack dev, circular designs, or cooperative SaaS platforms? Let's collaborate.
-            </p>
-            <div className="flex justify-center gap-4 flex-wrap pt-4">
-              <a href="mailto:lavinianataniela05@gmail.com" className="exhibit-btn">
-                Send Email
-              </a>
-              <a
-                href="https://github.com/lavinianataniela05"
-                target="_blank"
-                rel="noreferrer"
-                className="exhibit-btn-outline"
-              >
-                Github
-              </a>
-              <a
-                href="https://www.linkedin.com/in/lavinianatanielanovyandi/"
-                target="_blank"
-                rel="noreferrer"
-                className="exhibit-btn-outline"
-              >
-                LinkedIn
-              </a>
-              <a
-                href="https://www.instagram.com/lavinia_nataniela/"
-                target="_blank"
-                rel="noreferrer"
-                className="exhibit-btn-outline"
-              >
-                Instagram
-              </a>
+        <section id="contact" className="exhibit-room" style={{ flexDirection: "column", alignItems: "stretch", borderBottom: "none" }}>
+          <div className="w-full max-w-[1180px] mx-auto">
+            <div className="atelier-frame atelier-frame-hover p-10 md:p-16 text-center">
+              <span className="exhibit-label">CONNECT // 04</span>
+              <h2 className="exhibit-title mb-4">Let&apos;s build meaningful products.</h2>
+              <p className="text-sm md:text-base text-neutral-600 leading-relaxed max-w-md mx-auto mb-9">
+                Interested in full-stack dev, circular designs, or cooperative SaaS platforms? Let&apos;s collaborate.
+              </p>
+              <div className="flex justify-center gap-4 flex-wrap">
+                <a href="mailto:lavinianataniela05@gmail.com" className="exhibit-btn">
+                  Send Email
+                </a>
+                <a
+                  href="https://github.com/lavinianataniela05"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="exhibit-btn-outline"
+                >
+                  Github
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/lavinianatanielanovyandi/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="exhibit-btn-outline"
+                >
+                  LinkedIn
+                </a>
+                <a
+                  href="https://www.instagram.com/lavinia_nataniela/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="exhibit-btn-outline"
+                >
+                  Instagram
+                </a>
+              </div>
+            </div>
+
+            {/* Footer line */}
+            <div className="mt-10 pt-6 border-t border-black/10 flex flex-wrap items-center justify-between gap-3">
+              <span className="text-[11px] font-mono text-neutral-400 tracking-wide">
+                © {new Date().getFullYear()} Lavinia Nataniela
+              </span>
+              <span className="text-[11px] font-mono text-neutral-400 tracking-wide">
+                Designed &amp; built with Next.js · Based in Indonesia
+              </span>
             </div>
           </div>
         </section>

@@ -24,9 +24,6 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Lavinia Nataniela — Frontend Developer & UI/UX Designer",
   description: "Lavinia Nataniela is a Frontend Developer and UI/UX Designer passionate about building scalable digital products, transforming complex ideas into intuitive experiences, and creating solutions that drive sustainability and business growth.",
-  icons: {
-    icon: "/logo.png",
-  },
 };
 
 export default function RootLayout({

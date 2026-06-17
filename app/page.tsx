@@ -368,7 +368,7 @@ export default function Page() {
                 <div>
                   <span className="hw-kicker">✨ ABOUT ME</span>
                   <h2 className="hw-title">
-                    Hello World! <span className="hw-wave">👋</span>
+                    HEY THERE! <span className="hw-wave">👋</span>
                   </h2>
                   <p className="hw-text">
                     I&apos;m Lavinia, an Undergraduate Computer Science student at Binus
@@ -385,12 +385,12 @@ export default function Page() {
                     problem-solving, and a drive to create technology that&apos;s not only
                     functional, but also meaningful.
                   </p>
-                  <a href="mailto:lavinianataniela05@gmail.com" className="hw-btn">
+                  {/* <a href="mailto:lavinianataniela05@gmail.com" className="hw-btn">
                     <svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true" fill="currentColor">
                       <path d="M3 1.5v13l11-6.5z" />
                     </svg>
                     Send me a message
-                  </a>
+                  </a> */}
                 </div>
               </div>
             </div>

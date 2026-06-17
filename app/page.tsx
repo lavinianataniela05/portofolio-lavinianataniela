@@ -983,87 +983,121 @@ export default function Page() {
             SECTION 03: EXPERIENCE
             ========================================== */}
         <section id="experience" className="exhibit-room" style={{ flexDirection: "column", alignItems: "stretch" }}>
-          <div className="w-full max-w-5xl mx-auto mb-10">
+
+          {/* Section Header */}
+          <div className="w-full max-w-5xl mx-auto mb-12">
             <span className="exhibit-label">THE REGISTRY // HONORS & EXPERIENCE</span>
-            <h2 className="exhibit-title">Registry of Experience</h2>
-            <p className="text-sm text-neutral-600 leading-relaxed max-w-xl">
-              Chronology listing professional tutoring positions, lecturer assistant registry, and mathematics awards.
-            </p>
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <h2 className="exhibit-title mb-0">Registry of Experience</h2>
+              <p className="text-sm text-neutral-500 leading-relaxed max-w-xs mb-2">
+                Teaching roles, mentorship records, and mathematics olympiad achievements.
+              </p>
+            </div>
+            <div className="mt-6 h-px bg-black/10" />
           </div>
 
-          <div className="exhibit-grid items-start">
-            {/* Experience narrative */}
-            <div className="space-y-6">
-              <h3 className="text-xl font-bold font-serif" style={{ fontFamily: "var(--font-display)" }}>Mentorship Chronology</h3>
+          {/* Experience Cards */}
+          <div className="w-full max-w-5xl mx-auto mb-14">
+            <p className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-neutral-400 mb-5">// Mentorship Roles</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-              <div className="timeline pl-4 border-l border-black/10 space-y-6">
-                <div className="relative">
-                  <div style={{ position: "absolute", left: "-20px", top: "4px", width: "9px", height: "9px", borderRadius: "50%", background: "var(--primary)", border: "2.5px solid var(--bg)" }} />
-                  <span className="text-xs font-mono font-bold text-neutral-500">2024 - 2025</span>
-                  <h4 className="text-sm font-bold mt-0.5">Laboratory Assistant Lecturer</h4>
-                  <span className="text-[10px] font-mono text-amber-800 uppercase block tracking-wider">Binus University</span>
-                  <p className="text-xs text-neutral-600 mt-2 leading-relaxed">
-                    Tutored Java Object-Oriented Programming (OOP) and Algorithms to 100+ Computer Science undergraduates.
+              {/* Card 01: Lab Assistant */}
+              <div className="atelier-frame p-7 relative overflow-hidden group cursor-default">
+                <span className="absolute -bottom-3 -right-1 text-[110px] font-bold font-mono text-black/[0.035] leading-none select-none pointer-events-none group-hover:text-black/[0.06] transition-all duration-500">01</span>
+                <div className="relative z-10 flex flex-col gap-4">
+                  <div className="flex items-center justify-between">
+                    <span className="inline-flex items-center gap-1.5 text-[9px] font-mono font-bold uppercase tracking-widest text-amber-800 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-full">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                      2024 — 2025
+                    </span>
+                    <span className="sim-badge">Ongoing</span>
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-bold leading-tight" style={{ fontFamily: "var(--font-display)" }}>Laboratory Assistant Lecturer</h4>
+                    <span className="text-[10px] font-mono font-bold text-amber-800 uppercase tracking-wider block mt-1.5">Binus University</span>
+                  </div>
+                  <p className="text-xs text-neutral-600 leading-relaxed pl-3 border-l-2 border-amber-200">
+                    Tutored Java OOP and Algorithms to 100+ Computer Science undergraduates, conducting lab evaluations and mentoring academic performance.
                   </p>
-                </div>
-
-                <div className="relative">
-                  <div style={{ position: "absolute", left: "-20px", top: "4px", width: "9px", height: "9px", borderRadius: "50%", background: "var(--primary)", border: "2.5px solid var(--bg)" }} />
-                  <span className="text-xs font-mono font-bold text-neutral-500">2024</span>
-                  <h4 className="text-sm font-bold mt-0.5">Summer Computer Class Instructor</h4>
-                  <span className="text-[10px] font-mono text-amber-800 uppercase block tracking-wider">HIMTI Binus</span>
-                  <p className="text-xs text-neutral-600 mt-2 leading-relaxed">
-                    Led fundamentals coding camp workshops covering basic frontend design structures.
-                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    <span className="exhibit-chip text-[9px] py-0.5 px-2.5">Java OOP</span>
+                    <span className="exhibit-chip text-[9px] py-0.5 px-2.5">Algorithms</span>
+                    <span className="exhibit-chip text-[9px] py-0.5 px-2.5">100+ Students</span>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Achievements stamps cabinet */}
-            <div>
-              <h3 className="text-xl font-bold font-serif mb-5" style={{ fontFamily: "var(--font-display)" }}>Honors Cabinet</h3>
-              <div className="stamp-grid gap-4" style={{ gridTemplateColumns: "repeat(2, 1fr)" }}>
-                <div className="stamp-tag p-4">
-                  <div className="stamp-symbol" style={{ fontSize: "18px", width: "36px", height: "36px" }}>🎓</div>
-                  <span className="stamp-year">2023</span>
-                  <h4 className="stamp-title text-xs">Widia Scholarship</h4>
-                  <p style={{ fontSize: "9px", color: "var(--muted)", marginTop: "2px" }}>Partial Scholarship recipient</p>
-                </div>
-
-                <div className="stamp-tag p-4">
-                  <div className="stamp-symbol" style={{ fontSize: "18px", width: "36px", height: "36px" }}>🥇</div>
-                  <span className="stamp-year">2022</span>
-                  <h4 className="stamp-title text-xs">Gold Medal - PhIMO</h4>
-                  <p style={{ fontSize: "9px", color: "var(--muted)", marginTop: "2px" }}>Philippine Math Olympiad</p>
-                </div>
-
-                <div className="stamp-tag p-4">
-                  <div className="stamp-symbol" style={{ fontSize: "18px", width: "36px", height: "36px" }}>🏆</div>
-                  <span className="stamp-year">2022</span>
-                  <h4 className="stamp-title text-xs">1st Prize - Greater Bay</h4>
-                  <p style={{ fontSize: "9px", color: "var(--muted)", marginTop: "2px" }}>Math Olympiad Winner</p>
-                </div>
-
-                <div className="stamp-tag p-4">
-                  <div className="stamp-symbol" style={{ fontSize: "18px", width: "36px", height: "36px" }}>🏅</div>
-                  <span className="stamp-year">2023</span>
-                  <h4 className="stamp-title text-xs">2nd Prize - Greater Bay</h4>
-                  <p style={{ fontSize: "9px", color: "var(--muted)", marginTop: "2px" }}>Greater Bay Math Olympiad</p>
-                </div>
-
-                <div className="stamp-tag p-4" style={{ gridColumn: "span 2" }}>
-                  <div className="flex items-center gap-3">
-                    <div className="stamp-symbol" style={{ fontSize: "18px", width: "36px", height: "36px", marginBottom: 0 }}>🥉</div>
-                    <div className="text-left">
-                      <span className="stamp-year">2021</span>
-                      <h4 className="stamp-title text-xs">Bronze Medal - PhIMO</h4>
-                      <p style={{ fontSize: "9px", color: "var(--muted)", marginTop: "1px" }}>Philippine Math Olympiad Heat round</p>
-                    </div>
+              {/* Card 02: Summer Instructor */}
+              <div className="atelier-frame p-7 relative overflow-hidden group cursor-default">
+                <span className="absolute -bottom-3 -right-1 text-[110px] font-bold font-mono text-black/[0.035] leading-none select-none pointer-events-none group-hover:text-black/[0.06] transition-all duration-500">02</span>
+                <div className="relative z-10 flex flex-col gap-4">
+                  <div className="flex items-center justify-between">
+                    <span className="inline-flex items-center gap-1.5 text-[9px] font-mono font-bold uppercase tracking-widest text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                      2024
+                    </span>
+                    <span className="sim-badge">Completed</span>
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-bold leading-tight" style={{ fontFamily: "var(--font-display)" }}>Summer Computer Class Instructor</h4>
+                    <span className="text-[10px] font-mono font-bold text-emerald-800 uppercase tracking-wider block mt-1.5">HIMTI Binus</span>
+                  </div>
+                  <p className="text-xs text-neutral-600 leading-relaxed pl-3 border-l-2 border-emerald-200">
+                    Led intensive coding camp workshops on foundational frontend design and web development structures for new CS students.
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    <span className="exhibit-chip text-[9px] py-0.5 px-2.5">HTML / CSS</span>
+                    <span className="exhibit-chip text-[9px] py-0.5 px-2.5">Frontend Design</span>
+                    <span className="exhibit-chip text-[9px] py-0.5 px-2.5">Coding Camp</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
+          {/* Honors Cabinet */}
+          <div className="w-full max-w-5xl mx-auto">
+            <p className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-neutral-400 mb-5">// Honors Cabinet</p>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+
+              <div className="stamp-tag p-5">
+                <div className="stamp-symbol">🎓</div>
+                <span className="stamp-year">2023</span>
+                <h4 className="stamp-title text-xs">Widia Scholarship</h4>
+                <p style={{ fontSize: "9px", color: "var(--muted)", marginTop: "4px", lineHeight: 1.4 }}>Partial merit scholarship award</p>
+              </div>
+
+              <div className="stamp-tag p-5" style={{ borderColor: "#B55D36" }}>
+                <div className="stamp-symbol" style={{ borderColor: "#B55D36" }}>🥇</div>
+                <span className="stamp-year" style={{ color: "#B55D36" }}>2022</span>
+                <h4 className="stamp-title text-xs">Gold Medal</h4>
+                <p style={{ fontSize: "9px", color: "var(--muted)", marginTop: "4px", lineHeight: 1.4 }}>PhIMO — Philippine Math Olympiad</p>
+              </div>
+
+              <div className="stamp-tag p-5" style={{ borderColor: "#324B3B" }}>
+                <div className="stamp-symbol" style={{ borderColor: "#324B3B" }}>🏆</div>
+                <span className="stamp-year" style={{ color: "#324B3B" }}>2022</span>
+                <h4 className="stamp-title text-xs">1st Prize</h4>
+                <p style={{ fontSize: "9px", color: "var(--muted)", marginTop: "4px", lineHeight: 1.4 }}>Greater Bay Area Math Olympiad</p>
+              </div>
+
+              <div className="stamp-tag p-5">
+                <div className="stamp-symbol">🏅</div>
+                <span className="stamp-year">2023</span>
+                <h4 className="stamp-title text-xs">2nd Prize</h4>
+                <p style={{ fontSize: "9px", color: "var(--muted)", marginTop: "4px", lineHeight: 1.4 }}>Greater Bay Area Math Olympiad</p>
+              </div>
+
+              <div className="stamp-tag p-5" style={{ borderColor: "#8A6240" }}>
+                <div className="stamp-symbol" style={{ borderColor: "#8A6240" }}>🥉</div>
+                <span className="stamp-year" style={{ color: "#8A6240" }}>2021</span>
+                <h4 className="stamp-title text-xs">Bronze Medal</h4>
+                <p style={{ fontSize: "9px", color: "var(--muted)", marginTop: "4px", lineHeight: 1.4 }}>PhIMO — Heat Round</p>
+              </div>
+
+            </div>
+          </div>
+
         </section>
 
         {/* ==========================================

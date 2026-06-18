@@ -834,33 +834,77 @@ header.atelier-nav {
 }
 
 /* ========== CONTACT SECTION ========== */
-/* Availability status pill */
-.contact-status {
+
+/* Main contact card — matches atelier-frame style */
+.contact-card {
+  padding: 0;
+  overflow: hidden;
+}
+.contact-card-bar {
+  height: 4px;
+  background: var(--primary);
+  flex-shrink: 0;
+}
+.contact-card-inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0;
+  align-items: center;
+  padding: 48px 52px;
+}
+.contact-card-divider {
+  width: 1px;
+  background: rgba(18,18,19,.09);
+  align-self: stretch;
+  margin: 0 52px;
+}
+
+/* Left: headline + desc + availability */
+.contact-card-left {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.contact-headline {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 3.5vw, 52px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.contact-desc {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.75;
+  max-width: 380px;
+}
+.contact-avail {
   display: inline-flex;
   align-items: center;
   gap: 9px;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--secondary);
   background: color-mix(in srgb, var(--secondary) 9%, transparent);
   border: 1px solid color-mix(in srgb, var(--secondary) 28%, transparent);
   padding: 6px 14px;
   border-radius: 30px;
-  margin-bottom: 22px;
+  width: fit-content;
 }
 
+/* status dot (shared) */
 .status-dot {
   position: relative;
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--secondary);
   flex-shrink: 0;
 }
-
 .status-dot::after {
   content: "";
   position: absolute;
@@ -869,54 +913,85 @@ header.atelier-nav {
   background: var(--secondary);
   animation: statusPulse 2s ease-out infinite;
 }
-
 @keyframes statusPulse {
   0%   { transform: scale(1); opacity: 0.65; }
   100% { transform: scale(3); opacity: 0; }
 }
 
-/* Single email CTA — clipped neo-brutalist pill with the address inline */
+/* Right: meta + email button + hint */
+.contact-card-right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.contact-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.contact-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
 .contact-email-btn {
-  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  background: var(--border-dark);
-  color: var(--bg);
-  padding: 15px 30px;
+  gap: 10px;
+  font-size: 11.5px !important;
+  letter-spacing: 0.01em;
+}
+.contact-hint {
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: 9.5px;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+
+/* Footer */
+.contact-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 20px;
+  border-top: 1px solid rgba(18,18,19,.10);
+  font-family: var(--font-mono);
+  font-size: 10px;
   font-weight: 600;
-  letter-spacing: -0.01em;
-  text-decoration: none;
-  transition: background 0.2s, transform 0.2s;
+  color: var(--muted);
+  letter-spacing: 0.04em;
 }
-
-.contact-email-btn:hover {
-  background: var(--primary);
-  color: #ffffff;
-  transform: translateY(-2px);
-}
-
-.contact-email-icon {
-  width: 18px;
-  height: 18px;
+.contact-footer-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--muted);
   flex-shrink: 0;
 }
 
-.contact-rail-hint {
-  margin-top: 18px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  color: var(--muted);
-}
-
-@media (max-width: 480px) {
-  .contact-email-btn {
-    font-size: 12px;
-    padding: 14px 20px;
+/* Responsive */
+@media (max-width: 900px) {
+  .contact-card-inner {
+    grid-template-columns: 1fr;
+    padding: 36px 36px;
+    gap: 32px;
   }
+  .contact-card-divider {
+    width: 100%;
+    height: 1px;
+    margin: 0;
+    align-self: auto;
+  }
+}
+@media (max-width: 480px) {
+  .contact-card-inner { padding: 28px 24px; }
+  .contact-email-btn { font-size: 10px !important; }
 }
 
 /* SCROLL REVEALS */
@@ -1801,3 +1876,619 @@ header.atelier-nav {
   }
   .pm-title { font-size: 28px; }
 }
+
+/* ============================================
+   EXPERIENCE SECTION  —  v4 Split-Panel
+   ============================================ */
+
+/* ── Section label row ── */
+.exp-section-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.exp-section-index {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.exp-section-name {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--text);
+  white-space: nowrap;
+}
+.exp-section-rule {
+  flex: 1;
+  height: 1px;
+  background: rgba(18,18,19,.10);
+}
+.exp-section-count {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: .1em;
+}
+
+/* ── Shared: chips ── */
+.exp-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 14px;
+}
+.exp-chip {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(18,18,19,.18);
+  background: var(--surface);
+  color: var(--text);
+  transition: background .15s, color .15s, transform .15s;
+  cursor: default;
+}
+.exp-chip:hover {
+  background: var(--border-dark);
+  color: var(--bg);
+  transform: translateY(-1px);
+}
+
+/* ── Shared: proof strip ── */
+.exp-proof-strip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid rgba(18,18,19,.07);
+}
+
+/* ── Shared: watermark ── */
+.exp-wm {
+  position: absolute;
+  bottom: -10px;
+  right: 10px;
+  font-family: var(--font-display);
+  font-size: 100px;
+  font-weight: 700;
+  line-height: 1;
+  opacity: .04;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+/* ── Sub-section spacing ── */
+.exp-subsection {
+  margin-bottom: 60px !important;
+}
+
+/* ── Career grid ── */
+.exp-career-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* Career card */
+.exp-cv {
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: default;
+  position: relative;
+  min-height: 320px;
+}
+.exp-cv-bar {
+  height: 4px;
+  flex-shrink: 0;
+}
+.exp-cv-body {
+  padding: 24px 26px 26px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+.exp-cv-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.exp-cv-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+.exp-cv-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+.exp-cv-num {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  display: block;
+}
+.exp-cv-period {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--muted);
+  display: block;
+}
+.exp-cv-rule {
+  height: 1px;
+  background: rgba(18,18,19,.07);
+  margin-bottom: 16px;
+}
+.exp-cv-role {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+.exp-cv-org {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.exp-cv-desc {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.75;
+  flex: 1;
+  margin-bottom: 14px;
+}
+
+/* ── Competition: featured + stack layout ── */
+.exp-comp-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+.exp-comp-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Hero card — featured 1st place */
+.exp-hero {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  overflow: hidden;
+  cursor: default;
+  align-items: stretch;
+  padding: 0;
+}
+.exp-hero-panel {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 380px;
+}
+.exp-hero-stripes {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(255,255,255,0.04) 0px,
+    rgba(255,255,255,0.04) 1px,
+    transparent 1px,
+    transparent 18px
+  );
+  pointer-events: none;
+}
+.exp-hero-orb {
+  position: absolute;
+  bottom: -60px;
+  right: -60px;
+  width: 200px;
+  height: 200px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.exp-hero-panel-inner {
+  position: relative;
+  z-index: 1;
+  padding: 28px 22px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.exp-hero-event {
+  font-family: var(--font-mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.6;
+}
+.exp-hero-award {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.exp-hero-trophy {
+  font-size: 46px;
+  line-height: 1;
+  display: block;
+}
+.exp-hero-rank {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  letter-spacing: -.01em;
+}
+.exp-hero-ybadge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.9);
+  width: fit-content;
+}
+.exp-hero-ghost {
+  position: relative;
+  z-index: 1;
+  padding: 0 16px 16px;
+  font-family: var(--font-display);
+  font-size: 88px;
+  font-weight: 700;
+  line-height: 1;
+  color: rgba(255,255,255,0.08);
+  user-select: none;
+  pointer-events: none;
+}
+.exp-hero-content {
+  padding: 30px 30px 28px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+.exp-hero-name {
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.exp-hero-sub {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+/* Side card — runner-up entries */
+.exp-side {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  overflow: hidden;
+  cursor: default;
+  align-items: stretch;
+  padding: 0;
+  min-height: 200px;
+}
+.exp-side-panel {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 14px 16px;
+}
+.exp-side-panel-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  padding-top: 4px;
+}
+.exp-side-rank {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  line-height: 1.3;
+}
+.exp-side-year {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: rgba(255,255,255,0.65);
+  text-align: center;
+}
+.exp-side-content {
+  padding: 18px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+.exp-side-event {
+  font-family: var(--font-mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  display: block;
+}
+.exp-side-name {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+/* ── Honors: featured scholarship ── */
+.exp-honor-featured {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  overflow: hidden;
+  cursor: default;
+  align-items: stretch;
+  padding: 0;
+  margin-bottom: 24px;
+}
+.exp-honor-feat-panel {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 160px;
+}
+.exp-honor-feat-panel-inner {
+  position: relative;
+  z-index: 1;
+  padding: 24px 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.exp-honor-feat-label {
+  font-family: var(--font-mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+}
+.exp-honor-feat-year {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  padding: 3px 11px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.9);
+  width: fit-content;
+}
+.exp-honor-feat-ghost {
+  position: relative;
+  z-index: 1;
+  padding: 0 12px 12px;
+  font-family: var(--font-display);
+  font-size: 72px;
+  font-weight: 700;
+  line-height: 1;
+  color: rgba(255,255,255,0.08);
+  user-select: none;
+  pointer-events: none;
+}
+.exp-honor-feat-content {
+  padding: 28px 30px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+}
+.exp-honor-feat-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 999px;
+  width: fit-content;
+}
+.exp-honor-feat-title {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--text);
+  margin: 0;
+}
+.exp-honor-feat-org {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* ── Honors: 4-column medal grid (remaining medals) ── */
+.exp-honors-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* Medal card */
+.exp-medal {
+  padding: 0;
+  overflow: hidden;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  cursor: default;
+  position: relative;
+  min-height: 240px;
+}
+.exp-medal-bar {
+  height: 4px;
+  flex-shrink: 0;
+}
+.exp-medal-body {
+  padding: 22px 16px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+.exp-medal-ring {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform .22s;
+}
+.exp-medal:hover .exp-medal-ring {
+  transform: scale(1.1) rotate(8deg);
+}
+.exp-medal-icon {
+  font-size: 24px;
+  line-height: 1;
+}
+.exp-medal-year {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .06em;
+}
+.exp-medal-rule {
+  width: 100%;
+  height: 1px;
+  background: rgba(18,18,19,.07);
+}
+.exp-medal-type {
+  font-family: var(--font-mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+.exp-medal-title {
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text);
+}
+.exp-medal-event {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.exp-medal-btn {
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all .18s;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1200px) {
+  .exp-hero { grid-template-columns: 200px 1fr; }
+  .exp-hero-name { font-size: 32px; }
+}
+@media (max-width: 1024px) {
+  .exp-career-grid { grid-template-columns: repeat(2, 1fr); }
+  .exp-comp-grid { grid-template-columns: 1fr; }
+  .exp-hero { grid-template-columns: 190px 1fr; }
+  .exp-hero-name { font-size: 30px; }
+  .exp-honors-grid { grid-template-columns: repeat(2, 1fr); }
+  .exp-subsection { margin-bottom: 48px !important; }
+}
+@media (max-width: 640px) {
+  .exp-career-grid { grid-template-columns: 1fr; }
+  .exp-hero { grid-template-columns: 1fr; }
+  .exp-hero-panel { min-height: 150px; flex-direction: row; align-items: center; padding: 20px; gap: 16px; }
+  .exp-hero-panel-inner { padding: 0; flex-direction: row; align-items: center; gap: 14px; }
+  .exp-hero-ghost { display: none; }
+  .exp-hero-name { font-size: 24px; }
+  .exp-side { grid-template-columns: 90px 1fr; }
+  .exp-honor-featured { grid-template-columns: 1fr; }
+  .exp-honor-feat-panel { min-height: 130px; }
+  .exp-honor-feat-ghost { display: none; }
+  .exp-honor-feat-title { font-size: 24px; }
+  .exp-honors-grid { grid-template-columns: repeat(2, 1fr); }
+  .exp-subsection { margin-bottom: 40px !important; }
+}
+

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import type { Project } from "../page";
+import type { Project } from "../data/portfolio";
 import ProjectCarousel from "./ProjectCarousel";
 
 interface ProjectModalProps {
